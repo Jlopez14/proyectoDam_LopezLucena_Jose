@@ -1,0 +1,30 @@
+@startuml
+actor Usuario as U
+participant "LoginScreen" as LS
+participant "HomeScreen" as HS
+participant "InventoryScreen" as IS
+participant "RecipesScreen" as RS
+participant "TipsScreen" as TS
+participant "UserListScreen" as US
+
+U -> LS: Abrir aplicación y ver pantalla de login
+LS -> HS: Navegar a HomeScreen
+HS -> U: Mostrar pantalla de inicio
+
+U -> HS: Seleccionar Inventory
+HS -> IS: Navegar a InventoryScreen
+IS -> U: Mostrar pantalla de inventario
+
+U -> HS: Seleccionar Recipes
+HS -> RS: Navegar a RecipesScreen
+RS -> U: Mostrar pantalla de recetas
+
+U -> HS: Seleccionar Tips
+HS -> TS: Navegar a TipsScreen
+TS -> U: Mostrar pantalla de consejos
+
+U -> HS: Seleccionar Users
+HS -> US: Navegar a UserListScreen
+US -> U: Mostrar pantalla de lista de usuarios
+
+@enduml

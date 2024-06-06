@@ -1,0 +1,172 @@
+@startuml
+class Usuario {
+  int? id
+  String nombre
+  String correoElectronico
+  String contrasena
+  String? otrosDetallesPerfil
+  + toMap()
+  + fromMap(Map<String, dynamic> map)
+}
+
+class Alimento {
+  int? id
+  String nombre
+  int? categoriaId
+  DateTime? fechaCompra
+  DateTime? fechaCaducidad
+  int cantidad
+  int usuarioId
+  + toMap()
+  + fromMap(Map<String, dynamic> map)
+}
+
+class Categoria {
+  int? id
+  String nombre
+  String? descripcion
+  Color color
+  + toMap()
+  + fromMap(Map<String, dynamic> map)
+  + static Color getColorForCategory(String nombreCategoria)
+}
+
+class Consejo {
+  int? id
+  String titulo
+  String contenido
+  int? categoriaId
+  + toMap()
+  + fromMap(Map<String, dynamic> map)
+}
+
+class IngredienteReceta {
+  int recetaId
+  int alimentoId
+  int cantidad
+  + toMap()
+  + fromMap(Map<String, dynamic> map)
+}
+
+class Receta {
+  int? id
+  String nombre
+  String instrucciones
+  int tiempoPreparacion
+  int usuarioId
+  List<IngredienteReceta> ingredientes
+  + toMap()
+  + fromMap(Map<String, dynamic> map, List<IngredienteReceta> ingredientes)
+}
+
+class DatabaseHelper {
+  static Database? _database
+  static final int version
+  static final String dbName
+  DatabaseHelper._privateConstructor()
+  static final DatabaseHelper instance
+  Future<Database> get database
+  _initDatabase()
+  _createTables(Database db, int version)
+  static close()
+}
+
+class DbAlimentos {
+  static Future<int> insert(Alimento alimento)
+  static Future<int> delete(int id)
+  static Future<int> update(Alimento alimento)
+  static Future<List<Alimento>> alimentos()
+  static Future<void> insertDefaultData()
+}
+
+class DbCategorias {
+  static Future<List<Categoria>> getCategorias()
+}
+
+class DbConsejos {
+  static Future<List<Consejo>> getConsejos()
+  static Future<List<Consejo>> getConsejosByCategory(int categoriaId)
+}
+
+class DbIngredientesRecetas {
+  static Future<int> insert(IngredienteReceta ingredienteReceta)
+  static Future<List<IngredienteReceta>> getIngredientesPorReceta(int recetaId)
+  static Future<int> update(IngredienteReceta ingredienteReceta)
+  static Future<int> delete(int recetaId, int alimentoId)
+  static Future<int> deleteAllIngredientesPorReceta(int recetaId)
+}
+
+class DbRecetas {
+  static Future<int> insert(Receta receta)
+  static Future<List<Receta>> getRecetas()
+  static Future<int> update(Receta receta)
+  static Future<int> delete(int id)
+}
+
+class DBUsuarios {
+  static Future<int> insert(Usuario usuario)
+  static Future<int> delete(Usuario usuario)
+  static Future<int> update(Usuario usuario)
+  static Future<List<Usuario>> usuarios()
+  static Future<Usuario?> buscarUsuario(String correoElectronico, String contrasena)
+}
+
+class Inicio {
+}
+
+class HomeScreen {
+  int userId
+}
+
+class _HomeScreenState {
+}
+
+class HomePage {
+}
+
+class InventoryScreen {
+  int userId
+}
+
+class _InventoryScreenState {
+}
+
+class LoginScreen {
+}
+
+class _LoginScreenState {
+}
+
+class RecipesScreen {
+  int userId
+}
+
+class _RecipesScreenState {
+}
+
+class RegisterScreen {
+}
+
+class TipsScreen {
+  int userId
+}
+
+class _TipsScreenState {
+}
+
+class MyApp {
+}
+
+Usuario "1" -- "0..*" Alimento : tiene
+Usuario "1" -- "0..*" Receta : crea
+Alimento "0..*" -- "1" Categoria : pertenece a
+Consejo "0..*" -- "1" Categoria : pertenece a
+Receta "1" -- "0..*" IngredienteReceta : contiene
+IngredienteReceta "0..*" -- "1" Alimento : usa
+InventoryScreen "1" -- "0..*" Alimento : maneja
+RecipesScreen "1" -- "0..*" Receta : muestra
+TipsScreen "1" -- "0..*" Consejo : muestra
+LoginScreen "1" -- "1" Usuario : autentica
+RegisterScreen "1" -- "1" Usuario : registra
+
+@enduml
